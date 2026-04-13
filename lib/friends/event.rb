@@ -139,7 +139,7 @@ module Friends
     end
 
     def default_location
-      @default_location ||= @description[/(?<=to _)\w[^_]*(?=_)/]
+      @default_location ||= @description[/(?<=to _)[[\p{L}\p{N}\p{S}_]][^_]*(?=_)/]
     end
 
     # @param friend [Friend] the friend to test
@@ -162,13 +162,13 @@ module Friends
     # Find the names of all friends in this description.
     # @return [Array] list of all friend names in the description
     def friend_names
-      @description.scan(/(?<=\*\*)\w[^\*]*(?=\*\*)/).uniq
+      @description.scan(/(?<=\*\*)[[\p{L}\p{N}\p{S}_]][^\*]*(?=\*\*)/).uniq
     end
 
     # Find the names of all locations in this description.
     # @return [Array] list of all location names in the description
     def description_location_names
-      @description.scan(/(?<=_)\w[^_]*(?=_)/).uniq
+      @description.scan(/(?<=_)[[\p{L}\p{N}\p{S}_]][^_]*(?=_)/).uniq
     end
 
     # @return [Array] list of all location names in either description or implicit_location

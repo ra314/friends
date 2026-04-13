@@ -175,6 +175,38 @@ def description_parsing_specs(test_stdout: true)
       end
     end
 
+    describe "when using non-standard characters" do
+      let(:content) do
+        <<-FILE
+### Activities:
+
+### Notes:
+
+### Friends:
+- Émile Zola
+- 💡Edison
+
+### Locations:
+- 📍Paris
+FILE
+      end
+
+      describe "starting with an accent" do
+        let(:description) { "Met with Émile." }
+        it { line_added "- #{date}: Met with **Émile Zola**." }
+      end
+
+      describe "starting with an emoji" do
+        let(:description) { "Lunch with 💡Edison." }
+        it { line_added "- #{date}: Lunch with **💡Edison**." }
+      end
+
+      describe "location starting with an emoji" do
+        let(:description) { "Met in 📍Paris." }
+        it { line_added "- #{date}: Met in _📍Paris_." }
+      end
+    end
+
     describe "when description includes a friend's nickname (case insensitive)" do
       let(:description) { "Lunch with the admiral." }
 
